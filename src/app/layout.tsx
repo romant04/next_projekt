@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import { Navbar } from "@/components/navbar";
 import { StoreProvider } from "@/providers/store-provider";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +24,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <Navbar />
           <div className="md:w-3/4 w-5/6 m-auto pt-10">{children}</div>
+          <ToastContainer />
         </body>
       </html>
     </StoreProvider>

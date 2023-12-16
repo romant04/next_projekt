@@ -2,8 +2,25 @@ import { TodoInput } from "@/types/todos";
 import prisma from "@/lib/prisma";
 import { Todo } from "@prisma/client";
 
-export async function GET() {
+// Gets all users or gets 1 by id
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
+
   try {
+    if (id) {
+      const res = await prisma.todo.findUnique({
+        where: { id: Number(id) },
+      });
+
+      if (!res)
+        return new Response(JSON.stringify({ message: "Todo not found" }), {
+          status: 404,
+        });
+
+      return new Response(JSON.stringify({ status: 200, data: res }));
+    }
+
     const res = await prisma.todo.findMany();
 
     return new Response(JSON.stringify({ status: 200, data: res }));

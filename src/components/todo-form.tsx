@@ -5,6 +5,7 @@ import { TodoInput } from "@/types/todos";
 import { Category } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { LoadingSpinnerWhite } from "@/components/loading-spinner-white";
+import { toast } from "react-toastify";
 
 interface EditingProps {
   isEditing: true;
@@ -43,7 +44,7 @@ export const TodoForm: FC<Props> = ({
     e.preventDefault();
     console.log(todo);
     if (!todo || !todo.category || !todo.name || !todo.dueDate) {
-      alert("Vyplň všechny údaje");
+      toast.error("Vyplň všechny údaje");
       return;
     }
 
@@ -54,6 +55,7 @@ export const TodoForm: FC<Props> = ({
     });
 
     if (res.ok) {
+      toast.success("Todo added succesfully");
       await router.push("/");
     }
   };
@@ -61,7 +63,7 @@ export const TodoForm: FC<Props> = ({
   const handleEdit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!todo || !todo.category || !todo.name || !todo.dueDate) {
-      alert("Vyplň všechny údaje");
+      toast.error("Vyplň všechny údaje");
       return;
     }
 
@@ -72,6 +74,7 @@ export const TodoForm: FC<Props> = ({
     });
 
     if (res.ok) {
+      toast.success("Todo edited succesfully");
       await router.push("/");
     }
   };

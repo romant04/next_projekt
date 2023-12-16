@@ -6,6 +6,7 @@ import { LoadingSpinnerWhite } from "@/components/loading-spinner-white";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 interface Props {
   name: string;
@@ -26,6 +27,7 @@ export const Todo: FC<Props> = ({ name, dueDate, id, category, done }) => {
     if (res.ok) {
       dispatch(removeTodo(id));
     }
+    toast.success("Todo deleted successfuly");
     setLoading(false);
   };
 
@@ -45,7 +47,7 @@ export const Todo: FC<Props> = ({ name, dueDate, id, category, done }) => {
 
   return (
     <div className="flex flex-col gap-y-8 md:flex-row justify-between md:items-center bg-primary py-4 px-6 rounded-sm text-white">
-      <div className="flex gap-4 items-start w-1/3">
+      <div className="flex gap-4 items-start md:w-1/3">
         <input
           type="checkbox"
           className="accent-accent"
@@ -64,17 +66,7 @@ export const Todo: FC<Props> = ({ name, dueDate, id, category, done }) => {
       </div>
 
       <div className="flex gap-8 ml-auto md:ml-0">
-        <Link
-          href={{
-            pathname: "/edit-todo",
-            query: {
-              id: id,
-              name: name,
-              category: category,
-              dueDate: dueDate.toString(),
-            },
-          }}
-        >
+        <Link href={`/edit-todo/${id}`}>
           <FontAwesomeIcon size="lg" icon={faPenToSquare} />
         </Link>
         {loading ? (
